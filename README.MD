@@ -21,7 +21,7 @@ To build and run the docker container run this command:
 ## Environment Variables
 This is a list of all possible environment variables for the .env file: 
 | Variable | Description |
-|---|---|---|
+|---|---|
 | PORT | Set the port (if variable is not provided, the port 80 will be set) |
 | DEFAULTPAGE | page that is served for the root |
 | ROUTENOTFOUND | page that is served if the route is not valid |
