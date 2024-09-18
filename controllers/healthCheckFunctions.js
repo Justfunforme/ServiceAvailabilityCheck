@@ -123,7 +123,7 @@ module.exports = {
         return;
     }, 
     performHealthCheck: async function performHealthCheck(serviceRoute) {
-        const allServices = JSON.parse(await basicFunctions.readFile(process.env.ALLHEALTHCHECKROUTES));
+        const allServices = JSON.parse(await basicFunctions.readFile(process.env.SERVICES));
         
         for (let service of allServices.services) {
             if(service.route == serviceRoute) {
@@ -133,7 +133,7 @@ module.exports = {
         return await getRouteNotFoundPage()
     },
     performHealthCheckAll: async function performHealthCheckAll() {
-        const allServices = JSON.parse(await basicFunctions.readFile(process.env.ALLHEALTHCHECKROUTES));
+        const allServices = JSON.parse(await basicFunctions.readFile(process.env.SERVICES));
         var healthCheckAll = [];
         var healthCheck;
 
