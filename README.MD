@@ -3,27 +3,20 @@ This tool allows you to easily check the availability of web services.
 All services available in the tool must be defined in a JSON file. 
 ## Setup
 Prerequisites: Node.js
-1. Install Express: 
-
-    npm install
-
+1. Install dependencies: **npm install**
 2. Create .env file (see **Environment Variables**)
 3. Create a JSON with a list of all services (see **Services**)
 ### Startup Command
     node --env-file=.env server.js
 
 ## Docker
-Run 
+To build the docker container run this command: 
     
     docker buildx build --load -t serviceavailabilitycheck:latest . 
 
-to build the App as a Docker container. 
-
-Run 
+To build and run the docker container run this command: 
 
     docker compose up -d --build
-
-to build and run the container. 
 
 ## Environment Variables
 This is a list of all possible environment variables for the .env file: 
