@@ -20,13 +20,13 @@ To build and run the docker container run this command:
 
 ## Environment Variables
 This is a list of all possible environment variables for the .env file: 
-| Variable | Description |
-|---|---|
-| PORT=3332 | Set the port (if variable is not provided, the port 80 will be set) |
-| DEFAULTPAGE=index.html | page that is served for the root |
-| ROUTENOTFOUND=notFound.html | page that is served if the route is not valid |
-| ALLHEALTHCHECKROUTES=services.json | JSON containing all services |
-| PINGCOUNT=3 | How many Ping instructions are sent (if variable is not provided, 1 ping instruction will be sent) |
+| Variable | Example Value | Description |
+|---|---|---|
+| PORT | Set the port (if variable is not provided, the port 80 will be set) |
+| DEFAULTPAGE | page that is served for the root |
+| ROUTENOTFOUND | page that is served if the route is not valid |
+| ALLHEALTHCHECKROUTES | JSON containing all services |
+| PINGCOUNT | How many Ping instructions are sent (if variable is not provided, 1 ping instruction will be sent) |
 
 ## Services
 All services available in the tool must be defined in a JSON file. 
