@@ -1,4 +1,4 @@
-const basicFunctions = require('../controllers/basicFunctions.js');
+const basicFunctions = require('./basicFunctions.js');
 const util = require('util');
 const exec = util.promisify(require("child_process").exec);
 

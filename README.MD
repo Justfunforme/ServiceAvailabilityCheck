@@ -1,12 +1,16 @@
+## Overview
+This tool allows you to easily check the availability of web services. 
+All services available in the tool must be defined in a JSON file. 
 ## Setup
 Prerequisites: Node.js
 1. Install Express: npm install express
-2. Create .env file (see **Env Variables**)
+2. Create .env file (see **Environment Variables**)
 3. Create a JSON with a list of all services (see **Services**)
 ### Startup Command
 node --env-file=.env server.js
 
-## Env Variables
+## Environment Variables
+This is a list of all possible environment variables for the .env file: 
 - PORT=3332 -> set the Port (if variable is not provided, the port 3000 will be set)
 - DEFAULTPAGE=index.html -> page that is served for the root
 - ROUTENOTFOUND=notFound.html -> page that is served if the route is not valid
@@ -21,14 +25,16 @@ The JSON must at least contain the following data in the services section:
 - route: term that must be used in the route (e.g.: /healthCheck/service/"route")
 - url: Full domain name (for display use)
 - ping: URL / IP that is used for the ping command (without protocol!)
+The tool must not be restarted to add services. The JSON can be updated on the fly!
 ### Example: 
 {
     "services": [
         {
-            "name": "Google",
-            "route": "google",
-            "url": "https://google.com",
-            "ping": "google.com"
+            "name": "Test",
+            "route": "test",
+            "url": "https://test.com",
+            "ping": "test.com"
         }
-    ]
+    ], 
+    "version": 1.0
 }

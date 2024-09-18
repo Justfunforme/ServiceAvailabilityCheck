@@ -17,7 +17,7 @@ async function startUp() {
     });
 
     //Routes: 
-    const healthCheckRoutes = require('./routes/healthcheck');
+    const healthCheckRoutes = require('./routes/healthcheck.js');
 
     app.use('/healthcheck', healthCheckRoutes)
 
