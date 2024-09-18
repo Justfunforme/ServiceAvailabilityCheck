@@ -1,0 +1,14 @@
+{
+  "name": "healthcheckhomeapi",
+  "version": "1.0.0",
+  "description": "API to check the health and availability of docker containers & applications",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juric Alexander",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
