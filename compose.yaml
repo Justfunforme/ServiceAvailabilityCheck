@@ -1,0 +1,7 @@
+services:
+  app: 
+    build: .
+    env_file: .env
+    hostname: serviceavailabilitycheck
+    ports:
+    - "${PORT}:${PORT}"
