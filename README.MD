@@ -4,7 +4,9 @@ All services available in the tool must be defined in a JSON file.
 ## Setup
 Prerequisites: Node.js
 1. Install Express: 
+
     npm install
+
 2. Create .env file (see **Environment Variables**)
 3. Create a JSON with a list of all services (see **Services**)
 ### Startup Command
@@ -12,11 +14,15 @@ Prerequisites: Node.js
 
 ## Docker
 Run 
+    
     docker buildx build --load -t serviceavailabilitycheck:latest . 
+
 to build the App as a Docker container. 
 
 Run 
-    docker-compose up -d --build
+
+    docker compose up -d --build
+
 to build and run the container. 
 
 ## Environment Variables
