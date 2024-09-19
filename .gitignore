@@ -1,9 +1,9 @@
-node_modules
+node_modules/
 .env
 services.json
 
 web/.DS_Store
-web/node_modules
+web/node_modules/
 web//dist
 
 # local env files
