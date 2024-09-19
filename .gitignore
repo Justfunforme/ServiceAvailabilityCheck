@@ -1,3 +1,3 @@
-node_modules/
-.env
-services.json
+ServiceAvailabilityCheckApi/node_modules/
+ServiceAvailabilityCheckApi/.env
+ServiceAvailabilityCheckApi/services.json

@@ -30,7 +30,7 @@ This is a list of all possible environment variables for the .env file:
 
 ## Services
 All services available in the tool must be defined in a JSON file. 
-The name of the JSON file must be defined by the **env variable** ALLHEALTHCHECKROUTES.
+The name of the JSON file must be defined by the **environment variable** SERVICES.
 The JSON must at least contain the following data in the services section: 
 - name: Displayname 
 - route: term that must be used in the route (e.g.: /healthCheck/service/"route")

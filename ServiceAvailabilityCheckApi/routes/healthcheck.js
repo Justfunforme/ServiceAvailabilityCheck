@@ -5,7 +5,7 @@ const basicFunctions = require('../controllers/basicFunctions.js');
 const healthCheckFunctions = require('../controllers/healthCheckFunctions.js');
 
 async function getServices() {
-    return JSON.parse(await basicFunctions.readFile(process.env.ALLHEALTHCHECKROUTES));
+    return JSON.parse(await basicFunctions.readFile(process.env.SERVICES));
 };
 
 router.get('/', async function(req, res) {
