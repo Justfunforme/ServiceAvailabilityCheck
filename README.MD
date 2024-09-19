@@ -2,8 +2,8 @@
 This tool allows you to easily check the availability of web services. 
 All services available in the tool must be defined in a JSON file. 
 ## Setup
-Prerequisites: Node.js
-1. Install dependencies: **npm install**
+Prerequisites: Node.js, Vue & Vuetify
+1. Install dependencies: **npm install** 
 2. Create .env file (see **Environment Variables**)
 3. Create a JSON with a list of all services (see **Services**)
 ### Startup Command
