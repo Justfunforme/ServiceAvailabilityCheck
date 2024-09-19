@@ -1,0 +1,11 @@
+{
+    "services": [
+        {
+            "name": "Test",
+            "route": "test",
+            "url": "https://test.com",
+            "ping": "test.com"
+        }
+    ], 
+    "version": 1.0
+}
