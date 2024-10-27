@@ -8,4 +8,4 @@ COPY . .
 
 RUN apt-get update -y
 RUN apt-get install -y iputils-ping
-CMD ["node", "--env-file=.env", "server.js"]
+CMD ["node", "--env-file=.api.env", "server.js"]

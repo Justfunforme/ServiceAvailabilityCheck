@@ -134,15 +134,15 @@ module.exports = {
     },
     performHealthCheckAll: async function performHealthCheckAll() {
         const allServices = JSON.parse(await basicFunctions.readFile(process.env.SERVICES));
-        var healthCheckAll = [];
+        var healthCheckAll = {"services": [], "version": 1};
         var healthCheck;
+        let i = 0;
 
         for (let service of allServices.services) {
-            healthCheck = {
-                name: service.name,
-                data: await pingService(service.ping)
-            }
-            healthCheckAll.push(healthCheck)
+            healthCheck = service
+            healthCheck["data"] = await pingService(service.ping)
+            healthCheckAll["services"][i] = healthCheck
+            i ++
         }
 
         return healthCheckAll

@@ -1,10 +1,20 @@
 {
     "services": [
         {
-            "name": "Test",
-            "route": "test",
-            "url": "https://test.com",
-            "ping": "test.com"
+            "name": "Test 1",
+            "shortname": "Test Application",
+            "route": "test1",
+            "url": "https://test.home.i",
+            "ping": "test.home.i", 
+            "logo": "/test.png"
+        },
+        {
+            "name": "Test 2",
+            "shortname": "Test Application",
+            "route": "test2",
+            "url": "https://test2.home.i",
+            "ping": "test2.home.i", 
+            "logo": "/test2.png"
         }
     ], 
     "version": 1.0

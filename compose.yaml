@@ -1,7 +1,9 @@
 services:
   app: 
+    container_name: serviceavailabilitycheckapi
     build: .
-    env_file: .env
+    env_file: .api.env
     hostname: serviceavailabilitycheck
+    restart: unless-stopped
     ports:
     - "${PORT}:${PORT}"

@@ -1,10 +1,76 @@
 {
     "services": [
         {
-            "name": "Test",
-            "route": "test",
-            "url": "https://test.com",
-            "ping": "test.com"
+            "name": "Home Assistant",
+            "shortname": "Home Automation",
+            "route": "hass",
+            "url": "https://hass.home.i",
+            "ping": "hass.home.i", 
+            "logo": "/homeassistanticon.png"
+        }, 
+        {
+            "name": "Firefly III",
+            "shortname": "Finance",
+            "route": "fireflyiii",
+            "url": "https://finance.home.i",
+            "ping": "hass.home.i",
+            "logo": "/firefly.png"
+        },
+        {
+            "name": "Ghostfolio",
+            "shortname": "Portfoliomanagement",
+            "route": "ghostfolio",
+            "url": "https://investment.home.i/",
+            "ping": "investment.home.i",
+            "logo": ""
+        },
+        {
+            "name": "Bookstack",
+            "shortname": "Wiki",
+            "route": "bookstack",
+            "url": "https://wiki.home.i/",
+            "ping": "wiki.home.i",
+            "logo": "/bookstack.png"
+        }, 
+        {
+            "name": "Sunshine",
+            "shortname": "Gamestreaming",
+            "route": "sunshine",
+            "url": "https://gamestreaming.home.i:47990/",
+            "ping": "gamestreaming.home.i",
+            "logo": "/sunshine.ico"
+        }, 
+        {
+            "name": "PiHole",
+            "shortname": "DNS",
+            "route": "pihole",
+            "url": "https://dns.home.i/",
+            "ping": "dns.home.i",
+            "logo": "/pihole.svg"
+        }, 
+        {
+            "name": "Router",
+            "shortname": "Router",
+            "route": "router",
+            "url": "http://192.168.0.1/",
+            "ping": "192.168.0.1",
+            "logo": ""
+        }, 
+        {
+            "name": "Portainer",
+            "shortname": "Containerisation",
+            "route": "portainer",
+            "url": "https://portainer.home.i/",
+            "ping": "portainer.home.i",
+            "logo": "/portainer.svg"
+        }, 
+        {
+            "name": "Vaultwarden",
+            "shortname": "Passwordmanager",
+            "route": "portainer",
+            "url": "https://bitwarden.home.i/",
+            "ping": "bitwarden.home.i",
+            "logo": ""
         }
     ], 
     "version": 1.0
