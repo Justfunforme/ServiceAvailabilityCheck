@@ -65,10 +65,37 @@ async function getPingTimes(searchString) {
     return pingStatistics
 };
 
+async function netcatService(addr, port) {
+    const netcatCmd = 'nc -vz ' + addr + ' ' + port
+    var Status = false; //default = not available
+
+    var serviceStatus = {};
+    serviceStatus['Available'] = Status
+    serviceStatus['Messages'] = [];
+    serviceStatus['Statistics'] = [];
+
+    serviceStatus['Statistics'].push(valueToArray('URL', addr))
+    serviceStatus['Statistics'].push(valueToArray('PORT', port))
+    serviceStatus['Statistics'].push(valueToArray('type', 'netcat'))
+
+    try {
+        const { stderr } = await exec(netcatCmd);
+        Status = true;
+        serviceStatus['Messages'].push(valueToArray('response', stderr))
+    } 
+    catch (err) {
+        serviceStatus['Messages'].push(valueToArray('error', err.stderr))
+    }
+
+    serviceStatus['Available'] = Status
+
+    return serviceStatus
+}
+
 async function pingService(serviceUrl) {
     const pingCmd = 'ping -c ' + (process.env.PINGCOUNT || 1) + ' ' + serviceUrl
 
-    var Status = false;
+    var Status = false; //default = not available
 
     var serviceStatus = {};
     serviceStatus['Available'] = Status
@@ -76,6 +103,7 @@ async function pingService(serviceUrl) {
     serviceStatus['Statistics'] = [];
 
     serviceStatus['Statistics'].push(valueToArray('URL', serviceUrl))
+    serviceStatus['Statistics'].push(valueToArray('type', 'ping'))
     serviceStatus['Statistics'].push(valueToArray('pingCount', process.env.PINGCOUNT || 1))
 
     try {
@@ -87,7 +115,7 @@ async function pingService(serviceUrl) {
             serviceStatus['Messages'].push(valueToArray('error', stderr));
         }
         if(stdout) {
-            serviceStatus['Messages'].push(valueToArray('ping', stdout));
+            serviceStatus['Messages'].push(valueToArray('response', stdout));
         }
     } catch (err) {
         if(err.stderr) {
@@ -127,7 +155,12 @@ module.exports = {
         
         for (let service of allServices.services) {
             if(service.route == serviceRoute) {
-                return await pingService(service.ping)
+                if(service.type == "P") {
+                    return await pingService(service.ping)
+                }
+                if(service.type == "N") {
+                    return await netcatService(service.ping, service.port)
+                }
             }
         }
         return await getRouteNotFoundPage()
@@ -140,7 +173,13 @@ module.exports = {
 
         for (let service of allServices.services) {
             healthCheck = service
-            healthCheck["data"] = await pingService(service.ping)
+            
+            if(service.type == "P") {
+                healthCheck["data"] = await pingService(service.ping)
+            }
+            if(service.type == "N") {
+                healthCheck["data"] = await netcatService(service.ping, service.port)
+            }
             healthCheckAll["services"][i] = healthCheck
             i ++
         }
