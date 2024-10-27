@@ -7,7 +7,6 @@
             "url": "https://test.home.i",
             "ping": "test.home.i", 
             "port": 443,
-            "type": "P",
             "logo": "/test.png"
         },
         {
@@ -17,7 +16,6 @@
             "url": "https://test2.home.i",
             "ping": "test2.home.i", 
             "port": 443,
-            "type": "N",
             "logo": "/test2.png"
         }
     ], 

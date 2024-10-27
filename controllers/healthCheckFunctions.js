@@ -65,33 +65,6 @@ async function getPingTimes(searchString) {
     return pingStatistics
 };
 
-async function netcatService(addr, port) {
-    const netcatCmd = 'nc -vz ' + addr + ' ' + port
-    var Status = false; //default = not available
-
-    var serviceStatus = {};
-    serviceStatus['Available'] = Status
-    serviceStatus['Messages'] = [];
-    serviceStatus['Statistics'] = [];
-
-    serviceStatus['Statistics'].push(valueToArray('URL', addr))
-    serviceStatus['Statistics'].push(valueToArray('PORT', port))
-    serviceStatus['Statistics'].push(valueToArray('type', 'netcat'))
-
-    try {
-        const { stderr } = await exec(netcatCmd);
-        Status = true;
-        serviceStatus['Messages'].push(valueToArray('response', stderr))
-    } 
-    catch (err) {
-        serviceStatus['Messages'].push(valueToArray('error', err.stderr))
-    }
-
-    serviceStatus['Available'] = Status
-
-    return serviceStatus
-}
-
 async function pingService(addr, port) {    
     const netcatCmd = 'nc -vz ' + addr + ' ' + port
     const pingCmd = 'ping -c ' + (process.env.PINGCOUNT || 1) + ' ' + addr
