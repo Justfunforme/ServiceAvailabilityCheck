@@ -92,8 +92,9 @@ async function netcatService(addr, port) {
     return serviceStatus
 }
 
-async function pingService(serviceUrl) {
-    const pingCmd = 'ping -c ' + (process.env.PINGCOUNT || 1) + ' ' + serviceUrl
+async function pingService(addr, port) {    
+    const netcatCmd = 'nc -vz ' + addr + ' ' + port
+    const pingCmd = 'ping -c ' + (process.env.PINGCOUNT || 1) + ' ' + addr
 
     var Status = false; //default = not available
 
@@ -102,20 +103,29 @@ async function pingService(serviceUrl) {
     serviceStatus['Messages'] = [];
     serviceStatus['Statistics'] = [];
 
-    serviceStatus['Statistics'].push(valueToArray('URL', serviceUrl))
-    serviceStatus['Statistics'].push(valueToArray('type', 'ping'))
+    serviceStatus['Statistics'].push(valueToArray('URL', addr))
+    serviceStatus['Statistics'].push(valueToArray('PORT', port))
     serviceStatus['Statistics'].push(valueToArray('pingCount', process.env.PINGCOUNT || 1))
+
+    try {
+        const { stderr } = await exec(netcatCmd);
+        Status = true;
+        serviceStatus['Messages'].push(valueToArray('netcat', stderr))
+    } 
+    catch (err) {
+        serviceStatus['Messages'].push(valueToArray('error', err.stderr))
+    }
 
     try {
         const { stdout, stderr } = await exec(pingCmd);
         if (!stderr) {
-            Status = true;
+
         }
         if(stderr) {
             serviceStatus['Messages'].push(valueToArray('error', stderr));
         }
         if(stdout) {
-            serviceStatus['Messages'].push(valueToArray('response', stdout));
+            serviceStatus['Messages'].push(valueToArray('ping', stdout));
         }
     } catch (err) {
         if(err.stderr) {
@@ -133,7 +143,6 @@ async function pingService(serviceUrl) {
     for(i = 0; i < pingStatistics.length; i++) {
         serviceStatus['Statistics'].push(valueToArray(pingStatistics[i].name, pingStatistics[i].value));
     }
-
     return serviceStatus
 }; 
 
@@ -152,15 +161,9 @@ module.exports = {
     }, 
     performHealthCheck: async function performHealthCheck(serviceRoute) {
         const allServices = JSON.parse(await basicFunctions.readFile(process.env.SERVICES));
-        
         for (let service of allServices.services) {
             if(service.route == serviceRoute) {
-                if(service.type == "P") {
-                    return await pingService(service.ping)
-                }
-                if(service.type == "N") {
-                    return await netcatService(service.ping, service.port)
-                }
+                return await pingService(service.ping, service.port)
             }
         }
         return await getRouteNotFoundPage()
@@ -174,12 +177,7 @@ module.exports = {
         for (let service of allServices.services) {
             healthCheck = service
             
-            if(service.type == "P") {
-                healthCheck["data"] = await pingService(service.ping)
-            }
-            if(service.type == "N") {
-                healthCheck["data"] = await netcatService(service.ping, service.port)
-            }
+            healthCheck["data"] = await pingService(service.ping, service.port)
             healthCheckAll["services"][i] = healthCheck
             i ++
         }
