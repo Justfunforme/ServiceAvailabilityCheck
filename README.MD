@@ -40,6 +40,8 @@ The JSON must at least contain the following data in the services section:
 - route: term that must be used in the route (e.g.: /healthCheck/service/"route")
 - url: Full domain name (for display use)
 - ping: URL / IP that is used for the ping command (without protocol!)
+- port: port of the service
+- type: N = Netcat / P = Ping
 
 The tool must not be restarted to add services. The JSON can be updated on the fly!
 ### Example: 
