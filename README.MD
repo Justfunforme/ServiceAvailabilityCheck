@@ -16,7 +16,7 @@ To build the docker container run this command:
 
 To build and run the docker container run this command: 
 
-    docker compose up -d --build
+    docker compose up --env-file=.api.env -d --build
 
 ## Environment Variables
 ### API
@@ -28,6 +28,13 @@ This is a list of all possible environment variables for the .api.env file:
 | ROUTENOTFOUND | page that is served if the route is not valid |
 | SERVICES | JSON containing all services |
 | PINGCOUNT | How many Ping instructions are sent (if variable is not provided, 1 ping instruction will be sent) |
+| LOG_LOCALE | Locale for the date time format of the log file |
+| MARIADB_ROOT_PASSWORD | Password of the rootuser of the database |
+| MARIADB_USER | Username of the application user |
+| MARIADB_PASSWORD | Password of the application user |
+| MARIADB_DATABASE | Name of the database |
+| MARIADB_URL | URL of the database |
+| DBPORT | Port of the database |
 
 
 ## Services
@@ -42,6 +49,7 @@ The JSON must at least contain the following data in the services section:
 - ping: URL / IP that is used for the ping command (without protocol!)
 - port: port of the service
 - type: N = Netcat / P = Ping
+- refreshing: indicates if the service is currently beeing refreshed
 
 The tool must not be restarted to add services. The JSON can be updated on the fly!
 ### Example: 

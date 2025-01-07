@@ -1,4 +1,5 @@
 const basicFunctions = require('./basicFunctions.js');
+const availability = require('../database/availability.js');
 const util = require('util');
 const exec = util.promisify(require("child_process").exec);
 
@@ -65,7 +66,7 @@ async function getPingTimes(searchString) {
     return pingStatistics
 };
 
-async function pingService(addr, port) {    
+async function pingService(addr, port, route) {    
     const netcatCmd = 'nc -vz ' + addr + ' ' + port
     const pingCmd = 'ping -c ' + (process.env.PINGCOUNT || 1) + ' ' + addr
 
@@ -86,7 +87,7 @@ async function pingService(addr, port) {
         serviceStatus['Messages'].push(valueToArray('netcat', stderr))
     } 
     catch (err) {
-        serviceStatus['Messages'].push(valueToArray('error', err.stderr))
+        serviceStatus['Messages'].push(valueToArray('netcaterror', err.stderr))
     }
 
     try {
@@ -95,14 +96,14 @@ async function pingService(addr, port) {
 
         }
         if(stderr) {
-            serviceStatus['Messages'].push(valueToArray('error', stderr));
+            serviceStatus['Messages'].push(valueToArray('pingerror', stderr));
         }
         if(stdout) {
             serviceStatus['Messages'].push(valueToArray('ping', stdout));
         }
     } catch (err) {
         if(err.stderr) {
-            serviceStatus['Messages'].push(valueToArray('error', err.stderr));
+            serviceStatus['Messages'].push(valueToArray('pingerror', err.stderr));
         }
         if(err.stdout) {
             serviceStatus['Messages'].push(valueToArray('info', err.stdout));
@@ -110,7 +111,9 @@ async function pingService(addr, port) {
     }
     serviceStatus['Available'] = Status
 
-    var searchString = getMessageFromMessagesArrayAsString(serviceStatus.Messages, 'ping') || getMessageFromMessagesArrayAsString(serviceStatus.Messages, 'info')
+    availability.saveValue(route, Status);
+
+    var searchString = getMessageFromMessagesArrayAsString(serviceStatus.Messages, 'ping'/*search for ping response*/) || getMessageFromMessagesArrayAsString(serviceStatus.Messages, 'info'/*search for Info Messages called Ping*/)
     var pingStatistics = await getPingTimes(searchString || '');
 
     for(i = 0; i < pingStatistics.length; i++) {
@@ -136,7 +139,7 @@ module.exports = {
         const allServices = JSON.parse(await basicFunctions.readFile(process.env.SERVICES));
         for (let service of allServices.services) {
             if(service.route == serviceRoute) {
-                return await pingService(service.ping, service.port)
+                return await pingService(service.ping, service.port, serviceRoute)
             }
         }
         return await getRouteNotFoundPage()
@@ -146,11 +149,10 @@ module.exports = {
         var healthCheckAll = {"services": [], "version": 1};
         var healthCheck;
         let i = 0;
-
         for (let service of allServices.services) {
             healthCheck = service
             
-            healthCheck["data"] = await pingService(service.ping, service.port)
+            healthCheck["data"] = await pingService(service.ping, service.port, healthCheck["route"])
             healthCheckAll["services"][i] = healthCheck
             i ++
         }

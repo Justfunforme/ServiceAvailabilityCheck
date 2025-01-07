@@ -1,31 +1,40 @@
 const basicFunctions = require('./controllers/basicFunctions.js')
-startUp();
+const logging = require("./controllers/logging.js");
+const databaseSetup = require("./database/setup.js");
+
+startUp()
 
 async function getDefaultPage() {
     return await basicFunctions.readFile(process.env.DEFAULTPAGE);
 };
 
 async function startUp() {
-    console.log('Starting Service...');
+    logging.log("INFO", "Starting up!")
+    
+    await basicFunctions.sleep(500)
+    
+    databaseSetup.setup()
+
     const express = require('express');
     const app = express();
 
     //Loading Routes:
-    console.log('Loading Routes...');
     app.get('/', async function(req, res) {
         res.send(await getDefaultPage());
     });
 
     //Routes: 
     const healthCheckRoutes = require('./routes/healthcheck.js');
+    const statisticRoutes = require('./routes/statistics.js');
 
     app.use('/healthcheck', healthCheckRoutes)
+    app.use('/statistics', statisticRoutes)
 
-    console.log('Starting Server...');
     //StartUp: 
     const port = process.env.PORT || 80
+    await basicFunctions.sleep(500)
     app.listen(port, () => {
-        console.log('Server is running on port ' + port)
+        logging.log("INFO", 'Server is running on port ' + port)
     });
 }
 

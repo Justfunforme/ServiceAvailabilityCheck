@@ -7,3 +7,10 @@ services:
     restart: unless-stopped
     ports:
     - "${PORT}:${PORT}"
+
+  database:
+    image: mariadb
+    env_file: .api.env
+    ports:
+    - "${DBPORT}:${DBPORT}"
+    restart: unless-stopped
