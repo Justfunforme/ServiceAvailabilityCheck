@@ -32,5 +32,13 @@ module.exports = {
         formatedDateTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second
 
         return formatedDateTime
+    }, 
+    isDbEnabled: function isDbEnabled() {
+        switch(process.env.ENABLE_DATABASE) {
+            case "true":
+                return true
+            default:
+                return false
+        }
     }
 }

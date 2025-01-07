@@ -29,6 +29,7 @@ This is a list of all possible environment variables for the .api.env file:
 | SERVICES | JSON containing all services |
 | PINGCOUNT | How many Ping instructions are sent (if variable is not provided, 1 ping instruction will be sent) |
 | LOG_LOCALE | Locale for the date time format of the log file |
+| ENABLE_DATABASE | Enable / Disable storage and readout from the database (true / false) |
 | MIN_LOG_LEVEL | Sets which events are logged (INFO, WARNING, ERROR) |
 | MARIADB_ROOT_PASSWORD | Password of the rootuser of the database |
 | MARIADB_USER | Username of the application user |

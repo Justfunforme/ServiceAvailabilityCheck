@@ -6,7 +6,7 @@ async function setupDatabase() {
     try {
         conn = await db.initPool.getConnection()
     } catch (err) {
-        await logging.log("ERROR", "Error connecting to database: " + err)
+        await logging.log("ERROR", "Error connecting to database (" + process.env.MARIADB_URL + ":" + process.env.DBPORT + "): " + err)
         await basicFunctions.sleep(500)
         throw new Error("Exiting program. See log files for details!")
     }
@@ -27,7 +27,7 @@ async function setupAvailabilityTable() {
     try {
         conn = await db.pool.getConnection()
     } catch (err) {
-        await logging.log("ERROR", "Error connecting to database: " + err)
+        await logging.log("ERROR", "Error connecting to database (" + process.env.MARIADB_URL + ":" + process.env.DBPORT + "): " + err)
         await basicFunctions.sleep(500)
         throw new Error("Exiting program. See log files for details!")
     }
@@ -50,6 +50,10 @@ async function setupAvailabilityTable() {
 
 module.exports = {
     setup: async function setup() {
+        if (basicFunctions.isDbEnabled() === false) {
+            logging.log("WARNING", "Storing values in database is not enabled!")
+            return 
+        }
         await logging.log("INFO", "Creating database if it does not exist yet!")
         await setupDatabase()
         await logging.log("INFO", "Creating tables if it they do not exist yet!")

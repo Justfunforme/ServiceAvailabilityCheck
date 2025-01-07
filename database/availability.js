@@ -3,10 +3,18 @@ const logging = require("../controllers/logging.js");
 const basicFunctions = require("../controllers/basicFunctions.js");
 
 async function insertValue(route, isAvailable) {    
-    conn = await db.pool.getConnection()    
+    try {
+        conn = await db.pool.getConnection()
+    } catch (err) {
+        await logging.log("ERROR", "Error connecting to database (" + process.env.MARIADB_URL + ":" + process.env.DBPORT + "): " + err)
+        await basicFunctions.sleep(500)
+        throw new Error("Exiting program. See log files for details!")
+    }
+
     const datetime = new Date()
 
     try {
+        await logging.log("INFO", "Inserting new value...")
         await conn.query("INSERT INTO " + process.env.MARIADB_DATABASE + ".availability (route, datetime, available) VALUES ('" + route + "', '" + basicFunctions.formatDateTime(datetime) + "', " + isAvailable + ")")
     } catch (err) {
         await logging.log("WARNING", "Error inserting value: " + err)
@@ -16,7 +24,13 @@ async function insertValue(route, isAvailable) {
 }
 
 async function getValuesByRoute(route) {
-    conn = await db.pool.getConnection()    
+    try {
+        conn = await db.pool.getConnection()
+    } catch (err) {
+        await logging.log("ERROR", "Error connecting to database (" + process.env.MARIADB_URL + ":" + process.env.DBPORT + "): " + err)
+        await basicFunctions.sleep(500)
+        throw new Error("Exiting program. See log files for details!")
+    }
 
     try {
         var result = await conn.query("SELECT \
@@ -35,10 +49,18 @@ async function getValuesByRoute(route) {
 
 module.exports = {
     saveValue: async function saveValue(route, isAvailable) {
+        if (basicFunctions.isDbEnabled() === false) {
+            logging.log("INFO", "Storing values in database is not enabled!")
+            return 
+        }
         await insertValue(route, isAvailable)
     },
 
     getValues: async function getValues(route) {
+        if (basicFunctions.isDbEnabled() === false) {
+            logging.log("INFO", "Storing values in database is not enabled!")
+            return 
+        }
         let stat
         await getValuesByRoute(route).then((res) => stat = res)
         return stat
