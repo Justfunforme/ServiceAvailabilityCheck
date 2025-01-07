@@ -11,8 +11,6 @@ async function getDefaultPage() {
 async function startUp() {
     logging.log("INFO", "Starting up!")
     
-    await basicFunctions.sleep(500)
-    
     databaseSetup.setup()
 
     const express = require('express');
@@ -32,7 +30,6 @@ async function startUp() {
 
     //StartUp: 
     const port = process.env.PORT || 80
-    await basicFunctions.sleep(500)
     app.listen(port, () => {
         logging.log("INFO", 'Server is running on port ' + port)
     });
