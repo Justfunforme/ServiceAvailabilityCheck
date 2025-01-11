@@ -22,8 +22,8 @@ module.exports = {
     formatDateTime: function formatDateTime(datetime) {        
         let formatedDateTime
         
-        var day = datetime.getDay()
-        var month = datetime.getMonth()
+        var day = datetime.getDate()
+        var month = datetime.getMonth() + 1
         var year = datetime.getYear() + 1900
         var hour = datetime.getHours()
         var minute = datetime.getMinutes()

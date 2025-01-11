@@ -1,5 +1,8 @@
 const fs = require('node:fs/promises')
 
+const logFileLocation = "logs/"
+const logFilePrefix = "logs_"
+
 const minLogLevel =  getLogLevel(process.env.MIN_LOG_LEVEL)
 function getLogLevel(logLevel) {
     switch(logLevel) {
@@ -18,8 +21,8 @@ async function writeLogFile(level, message) {
     }
 
     let logFileDate = new Date()
-    let logFileName = "logs_" + logFileDate.toISOString().split('T')[0]
-    let logFilePath = "logs/" + logFileName + ".log"
+    let logFileName = logFilePrefix + logFileDate.toISOString().split('T')[0]
+    let logFilePath = logFileLocation + logFileName + ".log"
 
     let newLogEntry = "[" + level + "] " + logFileDate.toLocaleString(process.env.LOG_LOCALE) + ": " + message + "\n"
 
@@ -28,23 +31,6 @@ async function writeLogFile(level, message) {
             throw new Error("Exiting program. Error writing log file!")
         }
     })
-
-/*     await readLogFile(logFilePath).then((res) => {
-        existingLogFile = res
-    })
-    
-    if(existingLogFile == undefined) {
-        newLogFile = newLogEntry
-    } else {
-        newLogFile = newLogEntry + existingLogFile
-    }
-
-    try {
-        newContent = "Test1234"
-        await fs.writeFile(logFilePath, newLogFile)
-    } catch (err) {
-
-    } */
 }
 
 module.exports = {
